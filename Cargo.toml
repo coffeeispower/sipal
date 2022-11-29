@@ -1,0 +1,11 @@
+[package]
+name = "sipal"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies.minifb]
+version = "0.23.0"
+optional = true
+[features]
+default = ["minifb_window"]
+minifb_window = ["minifb"]
