@@ -1,18 +1,13 @@
+mod context;
 #[cfg(feature = "minifb_window")]
 mod minifb_window_impl;
+pub mod position;
+pub mod triangle;
+
+pub use context::Context;
 #[cfg(feature = "minifb_window")]
 pub use minifb_window_impl::*;
 
-pub struct Context {
-    backbuffer: Vec<u32>,
-}
-impl Context {
-    pub fn create(width: usize, height: usize) -> Self {
-        Self {
-            backbuffer: vec![0; width * height],
-        }
-    }
-}
 pub trait Window
 where
     Self: Sized,

@@ -1,6 +1,7 @@
 use minifb::WindowOptions;
 
-use crate::{Context, Window};
+use crate::context::Context;
+use crate::Window;
 
 pub struct MiniFBWindow {
     context: Context,
