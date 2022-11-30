@@ -1,6 +1,8 @@
+use crate::position::{
+    normalized_to_real, position_to_index, real_to_normalized, to_1d_index, Position2, Position3,
+};
 use crate::triangle::Triangle;
 use bitflags::bitflags;
-use crate::position::{normalized_to_real, Position2, Position3, position_to_index, real_to_normalized, to_1d_index};
 bitflags! {
     pub struct Features: u16 {
         const DEPTH_TESTING = 0b1;
@@ -35,7 +37,8 @@ impl Context {
         let real_triangle = Triangle(
             normalized_to_real(triangle.0, self.width, self.height).into(),
             normalized_to_real(triangle.1, self.width, self.height).into(),
-            normalized_to_real(triangle.2, self.width, self.height).into());
+            normalized_to_real(triangle.2, self.width, self.height).into(),
+        );
         for y in 0..self.height {
             for x in 0..self.width {
                 if real_triangle.contains_point(Position2(x as f64, y as f64)) {

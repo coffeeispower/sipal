@@ -40,10 +40,10 @@ pub(crate) fn real_to_normalized<P: Into<Position2>>(
     height: usize,
 ) -> Position2 {
     let Position2(mut x, mut y) = real_position.into();
-    x -= (width as f64)/2.0;
-    y -= (height as f64)/2.0;
-    x /= (width as f64)/2.0;
-    y /= (height as f64)/2.0;
+    x -= (width as f64) / 2.0;
+    y -= (height as f64) / 2.0;
+    x /= (width as f64) / 2.0;
+    y /= (height as f64) / 2.0;
     y *= -1.0;
     Position2(x, y)
 }
@@ -53,11 +53,11 @@ pub(crate) fn normalized_to_real<P: Into<Position2>>(
     height: usize,
 ) -> (usize, usize) {
     let mut new_position = normalized_position.into();
-    new_position.0 *= (width as f64)/2.0;
-    new_position.0 += (width as f64)/2.0;
+    new_position.0 *= (width as f64) / 2.0;
+    new_position.0 += (width as f64) / 2.0;
     new_position.1 *= -1.0;
-    new_position.1 *= (height as f64)/2.0;
-    new_position.1 += (height as f64)/2.0;
+    new_position.1 *= (height as f64) / 2.0;
+    new_position.1 += (height as f64) / 2.0;
     (new_position.0 as usize, new_position.1 as usize)
 }
 
@@ -65,14 +65,13 @@ pub(crate) fn normalized_to_real<P: Into<Position2>>(
 mod tests {
     use super::*;
     #[test]
-    fn normalized_to_real_test(){
+    fn normalized_to_real_test() {
         let result = normalized_to_real((0.5, 0.5), 100, 100);
         assert_eq!(result.0 as u64, 75);
         assert_eq!(result.1 as u64, 25);
     }
     #[test]
-    fn real_to_normalized_test(){
-
+    fn real_to_normalized_test() {
         let result = real_to_normalized((75, 25), 100, 100);
         assert_eq!(result.0, 0.5);
         assert_eq!(result.1, 0.5);
