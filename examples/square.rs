@@ -7,12 +7,8 @@ fn main() {
     let mut window =
         sipal::MiniFBWindow::create(800, 600, "Example with sidal").expect("Create window");
     let program = ShaderProgram {
-        vertex_shader: &|pos| {
-            (pos.0, pos.1, pos.2, 1.0)
-        },
-        fragment_shader: &|pos| {
-            (1.0, 1.0, 1.0, 1.0)
-        }
+        vertex_shader: &|pos| (pos.0, pos.1, pos.2, 1.0),
+        fragment_shader: &|pos| (1.0, 1.0, 1.0, 1.0),
     };
     while !window.should_close() {
         let context = window.context();

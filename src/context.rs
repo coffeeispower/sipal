@@ -2,7 +2,7 @@ use bitflags::bitflags;
 use minifb::clamp;
 
 use crate::position::{
-    normalized_to_real, Position2, Position3, position_to_index, real_to_normalized, to_1d_index,
+    normalized_to_real, position_to_index, real_to_normalized, to_1d_index, Position2, Position3,
 };
 use crate::shader::ShaderProgram;
 use crate::triangle::Triangle;
@@ -61,16 +61,18 @@ impl<'v, 'f> Context<'v, 'f> {
         self.run_vertex_shader(&mut triangle.1);
         self.run_vertex_shader(&mut triangle.2);
         fn get_weight(triangle: Triangle, position: Position2) -> (f64, f64, f64) {
-            let x1 = triangle.0.0;
-            let x2 = triangle.1.0;
-            let x3 = triangle.2.0;
-            let y1 = triangle.0.1;
-            let y2 = triangle.1.1;
-            let y3 = triangle.2.1;
+            let x1 = triangle.0 .0;
+            let x2 = triangle.1 .0;
+            let x3 = triangle.2 .0;
+            let y1 = triangle.0 .1;
+            let y2 = triangle.1 .1;
+            let y3 = triangle.2 .1;
             let px = position.0;
             let py = position.1;
-            let w1 = (((y2 - y3)*(px - x3)) + ((x3-x2)*(py-y3))) / (((y2-y3)*(x1-x3))+((x3-x2)*(y1-y3)));
-            let w2 = (((y3 - y1)*(px - x3)) + ((x1-x3)*(py-y3))) / (((y2-y3)*(x1-x3))+((x3-x2)*(y1-y3)));
+            let w1 = (((y2 - y3) * (px - x3)) + ((x3 - x2) * (py - y3)))
+                / (((y2 - y3) * (x1 - x3)) + ((x3 - x2) * (y1 - y3)));
+            let w2 = (((y3 - y1) * (px - x3)) + ((x1 - x3) * (py - y3)))
+                / (((y2 - y3) * (x1 - x3)) + ((x3 - x2) * (y1 - y3)));
             let w3 = 1.0 - w1 - w2;
             (w1, w2, w3)
         }
@@ -81,12 +83,14 @@ impl<'v, 'f> Context<'v, 'f> {
         );
         for y in 0..self.height {
             for x in 0..self.width {
-
                 let (w0, w1, w2) = get_weight(real_triangle, Position2(x as f64, y as f64));
-                let fx = (w0 *triangle.0.0)+(w1 *triangle.1.0)+(w2 *triangle.2.0);
-                let fy = (w0 *triangle.0.1)+(w1 *triangle.1.1)+(w2 *triangle.2.1);
-                let fz = (w0 *triangle.0.2)+(w1 *triangle.1.2)+(w2 *triangle.2.2);
-                if fz > -1.0 && fz < 1.0 && real_triangle.contains_point(Position2(x as f64, y as f64)) {
+                let fx = (w0 * triangle.0 .0) + (w1 * triangle.1 .0) + (w2 * triangle.2 .0);
+                let fy = (w0 * triangle.0 .1) + (w1 * triangle.1 .1) + (w2 * triangle.2 .1);
+                let fz = (w0 * triangle.0 .2) + (w1 * triangle.1 .2) + (w2 * triangle.2 .2);
+                if fz > -1.0
+                    && fz < 1.0
+                    && real_triangle.contains_point(Position2(x as f64, y as f64))
+                {
                     let mut color = (*self.shader.fragment_shader)(Position3(fx, fy, fz));
                     color.0 = clamp(0.0, color.0, 1.0);
                     color.1 = clamp(0.0, color.1, 1.0);
