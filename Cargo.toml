@@ -12,3 +12,5 @@ optional = true
 [features]
 default = ["minifb_window"]
 minifb_window = ["minifb"]
+[dev-dependencies]
+glm = "0.2.3"
