@@ -3,13 +3,13 @@ use minifb::WindowOptions;
 use crate::context::Context;
 use crate::Window;
 
-pub struct MiniFBWindow {
-    context: Context,
+pub struct MiniFBWindow<'f, 'v> {
+    context: Context<'f, 'v>,
     window: minifb::Window,
     set_should_close: bool,
 }
 
-impl Window for MiniFBWindow {
+impl<'s> Window for MiniFBWindow<'s, 's> {
     type CreationError = String;
     fn create(width: usize, height: usize, title: &str) -> Result<Self, String> {
         let window = minifb::Window::new(title, width, height, WindowOptions::default()).map_err(
@@ -25,7 +25,7 @@ impl Window for MiniFBWindow {
             set_should_close: false,
         })
     }
-    fn context(&mut self) -> &mut Context {
+    fn context(&mut self) -> &'s mut Context {
         &mut self.context
     }
     fn should_close(&self) -> bool {

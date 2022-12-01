@@ -1,7 +1,10 @@
+extern crate core;
+
 mod context;
 #[cfg(feature = "minifb_window")]
 mod minifb_window_impl;
 pub mod position;
+pub mod shader;
 pub mod triangle;
 
 pub use context::Context;
