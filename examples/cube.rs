@@ -55,12 +55,11 @@ fn main() {
                 Z_ROT
             });
             let pos_vec = glm::dvec4(pos.0, pos.1, pos.2, 1.0);
-            let result = perspective_mat * (translate(0.0, 0.0, -4.0) * (rotation_matrix * pos_vec));
-            println!("{} {}", result.z, result.w);
+            let result = perspective_mat * (translate(0.0, 0.0, -2.0) * (rotation_matrix * pos_vec));
             (result.x, result.y, result.z, result.w)
         },
         fragment_shader: &move |pos| {
-            let fz = (pos.2/2.0)+0.5;
+            let fz = pos.2;
             (1.0, 1.0, fz, 1.0)
         },
     };
@@ -72,72 +71,72 @@ fn main() {
         context.draw_triangles(&[
             // FRONT
             Triangle(
-                Position3(-0.5, 0.5, 0.0),
-                Position3(0.5, -0.5, 0.0),
-                Position3(-0.5, -0.5, 0.0),
+                Position3(-0.5, 0.5, 0.5),
+                Position3(0.5, -0.5, 0.5),
+                Position3(-0.5, -0.5, 0.5),
             ),
             Triangle(
-                Position3(0.5, 0.5, 0.0),
-                Position3(0.5, -0.5, 0.0),
-                Position3(-0.5, 0.5, 0.0),
+                Position3(0.5, 0.5, 0.5),
+                Position3(0.5, -0.5, 0.5),
+                Position3(-0.5, 0.5, 0.5),
             ),
             // BACK
             Triangle(
-                Position3(0.5, -0.5, -1.0),
-                Position3(-0.5, -0.5, -1.0),
-                Position3(-0.5, 0.5, -1.0),
+                Position3(0.5, -0.5, -0.5),
+                Position3(-0.5, -0.5, -0.5),
+                Position3(-0.5, 0.5, -0.5),
             ),
             Triangle(
-                Position3(0.5, -0.5, -1.0),
-                Position3(-0.5, 0.5, -1.0),
-                Position3(0.5, 0.5, -1.0),
+                Position3(0.5, -0.5, -0.5),
+                Position3(-0.5, 0.5, -0.5),
+                Position3(0.5, 0.5, -0.5),
             ),
 
             // West
             Triangle(
-                Position3(-0.5, 0.5, -0.0),
-                Position3(-0.5, 0.5, -1.0),
-                Position3(-0.5, -0.5, -1.0),
+                Position3(-0.5, 0.5, 0.5),
+                Position3(-0.5, 0.5, -0.5),
+                Position3(-0.5, -0.5, -0.5),
             ),
             Triangle(
-                Position3(-0.5, -0.5, -1.0),
-                Position3(-0.5, -0.5, -0.0),
-                Position3(-0.5, 0.5, -0.0),
+                Position3(-0.5, -0.5, -0.5),
+                Position3(-0.5, -0.5, 0.5),
+                Position3(-0.5, 0.5, -0.5),
             ),
             // East
             Triangle(
-                Position3(0.5, 0.5, -1.0),
-                Position3(0.5, -0.5, -1.0),
-                Position3(0.5, 0.5, 0.0),
+                Position3(0.5, 0.5, -0.5),
+                Position3(0.5, -0.5, -0.5),
+                Position3(0.5, 0.5, 0.5),
             ),
             Triangle(
-                Position3(0.5, -0.5, 0.0),
-                Position3(0.5, 0.5, 0.0),
-                Position3(0.5, -0.5, -1.0),
+                Position3(0.5, -0.5, 0.5),
+                Position3(0.5, 0.5, 0.5),
+                Position3(0.5, -0.5, -0.5),
             ),
 
             // Top
             Triangle(
-                Position3(-0.5, 0.5, -1.0),
-                Position3(-0.5, 0.5, -0.0),
-                Position3(0.5, 0.5, -1.0),
+                Position3(-0.5, 0.5, -0.5),
+                Position3(-0.5, 0.5, 0.5),
+                Position3(0.5, 0.5, -0.5),
             ),
             Triangle(
-                Position3(0.5, 0.5, -0.0),
-                Position3(0.5, 0.5, -1.0),
-                Position3(-0.5, 0.5, -0.0),
+                Position3(0.5, 0.5, 0.5),
+                Position3(0.5, 0.5, -0.5),
+                Position3(-0.5, 0.5, 0.5),
             ),
 
             // Bottom
             Triangle(
-                Position3(-0.5, -0.5, -0.0),
-                Position3(0.5, -0.5, -1.0),
-                Position3(-0.5, -0.5, -1.0),
+                Position3(-0.5, -0.5, 0.5),
+                Position3(0.5, -0.5, -0.5),
+                Position3(-0.5, -0.5, -0.5),
             ),
             Triangle(
-                Position3(0.5, -0.5, -1.0),
-                Position3(-0.5, -0.5, -0.0),
-                Position3(0.5, -0.5, -0.0),
+                Position3(0.5, -0.5, -0.5),
+                Position3(-0.5, -0.5, 0.5),
+                Position3(0.5, -0.5, 0.5),
             ),
         ]);
         unsafe {
