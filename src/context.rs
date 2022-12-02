@@ -82,8 +82,12 @@ impl<'v, 'f> Context<'v, 'f> {
             normalized_to_real(triangle.1, self.width, self.height).into(),
             normalized_to_real(triangle.2, self.width, self.height).into(),
         );
-        for y in 0..self.height {
-            for x in 0..self.width {
+        let min_x = [real_triangle.0.0, real_triangle.1.0, real_triangle.2.0].iter().cloned().reduce(f64::min).unwrap().max(0.0) as usize;
+        let min_y =[real_triangle.0.1, real_triangle.1.1, real_triangle.2.1].iter().cloned().reduce(f64::min).unwrap().max(0.0) as usize;
+        let max_x =[real_triangle.0.0, real_triangle.1.0, real_triangle.2.0].iter().cloned().reduce(f64::max).unwrap().min(self.width as f64) as usize;
+        let max_y =[real_triangle.0.1, real_triangle.1.1, real_triangle.2.1].iter().cloned().reduce(f64::max).unwrap().min(self.height as f64) as usize;
+        for y in min_y..max_y {
+            for x in min_x..max_x {
                 let (w0, w1, w2) = get_weight(real_triangle, Position2(x as f64, y as f64));
                 let fx = (w0 * triangle.0 .0) + (w1 * triangle.1 .0) + (w2 * triangle.2 .0);
                 let fy = (w0 * triangle.0 .1) + (w1 * triangle.1 .1) + (w2 * triangle.2 .1);
