@@ -29,7 +29,7 @@ impl<'v, 'f> Context<'v, 'f> {
             features: Features::empty(),
             width,
             height,
-            depth_buffer: vec![f64::INFINITY; width * height],
+            depth_buffer: vec![f64::NEG_INFINITY; width * height],
             shader: Box::new(ShaderProgram {
                 vertex_shader: &|vertex_position| {
                     (vertex_position.0, vertex_position.1, vertex_position.2, 1.0)
@@ -56,6 +56,7 @@ impl<'v, 'f> Context<'v, 'f> {
         pos.1 = result.1 / result.3;
         pos.2 = result.2 / result.3;
     }
+
     pub fn draw_triangle(&mut self, mut triangle: Triangle) {
         self.run_vertex_shader(&mut triangle.0);
         self.run_vertex_shader(&mut triangle.1);
@@ -87,8 +88,9 @@ impl<'v, 'f> Context<'v, 'f> {
                 let fx = (w0 * triangle.0 .0) + (w1 * triangle.1 .0) + (w2 * triangle.2 .0);
                 let fy = (w0 * triangle.0 .1) + (w1 * triangle.1 .1) + (w2 * triangle.2 .1);
                 let fz = (w0 * triangle.0 .2) + (w1 * triangle.1 .2) + (w2 * triangle.2 .2);
-                if fz > -1.0
-                    && fz < 1.0
+                
+                if (-1.0..=1.0).contains(&fz)
+                    && self.depth_buffer[to_1d_index(x, y, self.width)] <= fz
                     && real_triangle.contains_point(Position2(x as f64, y as f64))
                 {
                     let mut color = (*self.shader.fragment_shader)(Position3(fx, fy, fz));
@@ -100,6 +102,7 @@ impl<'v, 'f> Context<'v, 'f> {
                     let g = (255.0 * color.1) as u32;
                     let b = (255.0 * color.2) as u32;
                     self.backbuffer[to_1d_index(x, y, self.width)] = r | (g << 8) | (b << 16);
+                    self.depth_buffer[to_1d_index(x, y, self.width)] = fz;
                 }
             }
         }
@@ -111,7 +114,7 @@ impl<'v, 'f> Context<'v, 'f> {
     }
     pub fn clear_depth_buffer(&mut self) {
         for i in self.depth_buffer.iter_mut() {
-            *i = 0.0;
+            *i = f64::NEG_INFINITY;
         }
     }
     pub fn clear_color_buffer(&mut self) {
