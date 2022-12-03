@@ -15,4 +15,4 @@ Other features are on their way to be implemented, there's still a LOT to do yet
 ### Cube
 This is a example of a spinning cube, nothing special, but considering I only took about 4 days to implement the library and this example, it's pretty amazing!
 
-![Gravação de ecrã a partir de 2022-12-02 23-35-44.webm](https://user-images.githubusercontent.com/92828847/205414543-83b2d98e-4a21-45b4-9299-a5d39a989cce.webm)
+https://user-images.githubusercontent.com/92828847/205414834-d5558d2f-717f-4cbc-8933-778837c63c8d.mov
