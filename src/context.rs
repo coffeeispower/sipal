@@ -1,8 +1,12 @@
+#[cfg(not(feature = "std"))]
+use alloc::boxed::Box;
+#[cfg(not(feature = "std"))]
+use alloc::vec::Vec;
+#[cfg(not(feature = "std"))]
+use alloc::vec;
 use bitflags::bitflags;
-use minifb::clamp;
-
 use crate::position::{
-    normalized_to_real, position_to_index, real_to_normalized, to_1d_index, Position2, Position3,
+    normalized_to_real, to_1d_index, Position2, Position3,
 };
 use crate::shader::ShaderProgram;
 use crate::triangle::Triangle;
@@ -13,8 +17,17 @@ bitflags! {
     }
 }
 
+pub fn clamp<T: PartialOrd>(low: T, value: T, high: T) -> T {
+    if value < low {
+        low
+    } else if value > high {
+        high
+    } else {
+        value
+    }
+}
 pub struct Context<'v, 'f> {
-    pub(crate) backbuffer: Vec<u32>,
+    pub backbuffer: Vec<u32>,
     features: Features,
     depth_buffer: Vec<f64>,
     width: usize,

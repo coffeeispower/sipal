@@ -28,7 +28,16 @@ impl Triangle {
         let y1 = self.0 .1;
         let y2 = self.1 .1;
         let y3 = self.2 .1;
-        ((x1 * (y2 - y3) + x2 * (y3 - y1) + x3 * (y1 - y2)) as f64 / 2.0).abs()
+        #[cfg(feature = "std")]
+        {
+            ((x1 * (y2 - y3) + x2 * (y3 - y1) + x3 * (y1 - y2)) as f64 / 2.0).abs()
+        }
+        
+        #[cfg(not(feature = "std"))]
+        {
+            let result = (x1 * (y2 - y3) + x2 * (y3 - y1) + x3 * (y1 - y2)) as f64 / 2.0;
+            if result < 0.0 { -result } else { result }
+        }
     }
     pub fn contains_point<P: Into<Position2>>(self, point: P) -> bool {
         let Triangle(Position3(x1, y1, _), Position3(x2, y2, _), Position3(x3, y3, _)) = self;

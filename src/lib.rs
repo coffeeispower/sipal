@@ -1,5 +1,6 @@
-extern crate core;
-
+#![cfg_attr(not(feature = "std"), no_std)]
+#[cfg(not(feature = "std"))]
+extern crate alloc;
 mod context;
 #[cfg(feature = "minifb_window")]
 mod minifb_window_impl;
